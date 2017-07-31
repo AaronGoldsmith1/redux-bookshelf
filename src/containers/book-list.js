@@ -8,7 +8,10 @@ class BookList extends Component {
   renderList(){
     return this.props.books.map((book) => {
       return (
-        <li key={book.title} className="list-group-item">{book.title}</li>
+        <li
+         key={book.title}
+         onClick={() => this.props.selectBook(book)}
+         className="list-group-item">{book.title}</li>
       );
     });
   }
@@ -29,8 +32,12 @@ function mapStateToProps(state){
   };
 }
 
+//return value will end up as props on book list container
 function mapDispatchToProps(dispatch){
-return bindActionCreators({selectBook: selectBook}, dispatch)
+  //whenever selectBook is called, result passed to all reducers
+  return bindActionCreators({selectBook: selectBook}, dispatch)
 }
 
+//promote booklist from component to container, needs to be aware of
+//dispatch method selectBook, make it available as a prop
 export default connect(mapStateToProps, mapDispatchToProps)(BookList)
